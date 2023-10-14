@@ -15,7 +15,7 @@ import java.util.Set;
 public class Host {
 
     @Id
-    @Column(nullable = false, updatable = false)
+    @Column(name = "host_id", nullable = false, updatable = false)
     @SequenceGenerator(
             name = "primary_sequence",
             sequenceName = "primary_sequence",
@@ -26,58 +26,58 @@ public class Host {
             strategy = GenerationType.SEQUENCE,
             generator = "primary_sequence"
     )
-    private Integer hostId;
+    private Long hostId;
 
     @Column
-    private Boolean name;
+    private String name;
 
     @Column
-    private Boolean email;
+    private String email;
 
     @Column
-    private Boolean phone;
+    private String phone;
 
     @Column
     private OffsetDateTime loadDdtm;
 
     @Column
-    private Integer sourceId;
+    private Integer sourceId; //TODO ask
 
-    @OneToMany(mappedBy = "hostIdd")
+    @OneToMany(mappedBy = "host_id")
     private Set<Listing> listings;
 
-    @OneToMany(mappedBy = "hostIdd")
+    @OneToMany(mappedBy = "host_id")
     private Set<HostInfo> hostInfos;
 
-    public Integer getHostId() {
+    public Long getHostId() {
         return hostId;
     }
 
-    public void setHostId(final Integer hostId) {
+    public void setHostId(Long hostId) {
         this.hostId = hostId;
     }
 
-    public Boolean getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(final Boolean name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Boolean getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(final Boolean email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public Boolean getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(final Boolean phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -85,7 +85,7 @@ public class Host {
         return loadDdtm;
     }
 
-    public void setLoadDdtm(final OffsetDateTime loadDdtm) {
+    public void setLoadDdtm(OffsetDateTime loadDdtm) {
         this.loadDdtm = loadDdtm;
     }
 
@@ -93,7 +93,7 @@ public class Host {
         return sourceId;
     }
 
-    public void setSourceId(final Integer sourceId) {
+    public void setSourceId(Integer sourceId) {
         this.sourceId = sourceId;
     }
 
@@ -101,7 +101,7 @@ public class Host {
         return listings;
     }
 
-    public void setListings(final Set<Listing> listings) {
+    public void setListings(Set<Listing> listings) {
         this.listings = listings;
     }
 
@@ -109,8 +109,7 @@ public class Host {
         return hostInfos;
     }
 
-    public void setHostInfos(final Set<HostInfo> hostInfos) {
+    public void setHostInfos(Set<HostInfo> hostInfos) {
         this.hostInfos = hostInfos;
     }
-
 }

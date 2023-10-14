@@ -9,7 +9,7 @@ import jakarta.persistence.SequenceGenerator;
 
 
 @Entity
-public class HasingAlgoritm {
+public class HasingAlgoritm { //TODO ask
 
     @Id
     @Column(nullable = false, updatable = false)
@@ -23,25 +23,10 @@ public class HasingAlgoritm {
             strategy = GenerationType.SEQUENCE,
             generator = "primary_sequence"
     )
-    private Integer hashalgoritmid;
+    private Long hashalgoritmid;
 
     @Column
     private Boolean algoritmname;
 
-    public Integer getHashalgoritmid() {
-        return hashalgoritmid;
-    }
-
-    public void setHashalgoritmid(final Integer hashalgoritmid) {
-        this.hashalgoritmid = hashalgoritmid;
-    }
-
-    public Boolean getAlgoritmname() {
-        return algoritmname;
-    }
-
-    public void setAlgoritmname(final Boolean algoritmname) {
-        this.algoritmname = algoritmname;
-    }
 
 }

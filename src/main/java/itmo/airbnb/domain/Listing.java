@@ -18,7 +18,7 @@ import java.util.Set;
 public class Listing {
 
     @Id
-    @Column(nullable = false, updatable = false)
+    @Column(name = "listing_id", nullable = false, updatable = false)
     @SequenceGenerator(
             name = "primary_sequence",
             sequenceName = "primary_sequence",
@@ -29,57 +29,58 @@ public class Listing {
             strategy = GenerationType.SEQUENCE,
             generator = "primary_sequence"
     )
-    private Integer listingId;
+    private Long listingId;
 
-    @Column
-    private Integer hostId;
-
-    @Column
+    @Column(name = "load_ddtm")
     private OffsetDateTime loadDdtm;
 
-    @Column
-    private Integer sourceId;
+    @Column(name = "city")
+    private String city; //TODO say
 
-    @OneToMany(mappedBy = "listingIdd")
+    @Column(name = "source_id")
+    private Integer sourceId; // TODO: ask
+
+    @OneToMany(mappedBy = "listing_id")
     private Set<ListingInfo> listingInfos;
 
-    @OneToMany(mappedBy = "listinfIdd")
+    @OneToMany(mappedBy = "listing_id")
     private Set<ListingPrice> listingPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "host_idd_id")
-    private Host hostIdd;
+    @JoinColumn(name = "host_id")
+    private Host host;
 
-    @OneToMany(mappedBy = "listingIdd")
-    private Set<Reviews> reviewss;
+    @OneToMany(mappedBy = "listing_id")
+    private Set<Review> reviews;
 
-    @OneToMany(mappedBy = "listingIdd")
+    @OneToMany(mappedBy = "listing_id")
     private Set<Calendar> calendars;
 
-    @OneToMany(mappedBy = "listingIdd")
+    @OneToMany(mappedBy = "listing_id")
     private Set<ListingGuest> listingGuests;
 
-    public Integer getListingId() {
+
+    public Long getListingId() {
         return listingId;
     }
 
-    public void setListingId(final Integer listingId) {
+    public void setListingId(Long listingId) {
         this.listingId = listingId;
     }
 
-    public Integer getHostId() {
-        return hostId;
+    public String getCity() {
+        return city;
     }
 
-    public void setHostId(final Integer hostId) {
-        this.hostId = hostId;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public OffsetDateTime getLoadDdtm() {
         return loadDdtm;
     }
 
-    public void setLoadDdtm(final OffsetDateTime loadDdtm) {
+    public void setLoadDdtm(OffsetDateTime loadDdtm) {
         this.loadDdtm = loadDdtm;
     }
 
@@ -87,7 +88,7 @@ public class Listing {
         return sourceId;
     }
 
-    public void setSourceId(final Integer sourceId) {
+    public void setSourceId(Integer sourceId) {
         this.sourceId = sourceId;
     }
 
@@ -95,7 +96,7 @@ public class Listing {
         return listingInfos;
     }
 
-    public void setListingInfos(final Set<ListingInfo> listingInfos) {
+    public void setListingInfos(Set<ListingInfo> listingInfos) {
         this.listingInfos = listingInfos;
     }
 
@@ -103,31 +104,31 @@ public class Listing {
         return listingPrice;
     }
 
-    public void setListingPrice(final Set<ListingPrice> listingPrice) {
+    public void setListingPrice(Set<ListingPrice> listingPrice) {
         this.listingPrice = listingPrice;
     }
 
-    public Host getHostIdd() {
-        return hostIdd;
+    public Host getHost() {
+        return host;
     }
 
-    public void setHostIdd(final Host hostIdd) {
-        this.hostIdd = hostIdd;
+    public void setHost(Host host) {
+        this.host = host;
     }
 
-    public Set<Reviews> getReviewss() {
-        return reviewss;
+    public Set<Review> getReviews() {
+        return reviews;
     }
 
-    public void setReviewss(final Set<Reviews> reviewss) {
-        this.reviewss = reviewss;
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
     }
 
     public Set<Calendar> getCalendars() {
         return calendars;
     }
 
-    public void setCalendars(final Set<Calendar> calendars) {
+    public void setCalendars(Set<Calendar> calendars) {
         this.calendars = calendars;
     }
 
@@ -135,8 +136,7 @@ public class Listing {
         return listingGuests;
     }
 
-    public void setListingGuests(final Set<ListingGuest> listingGuests) {
+    public void setListingGuests(Set<ListingGuest> listingGuests) {
         this.listingGuests = listingGuests;
     }
-
 }

@@ -12,7 +12,7 @@ import jakarta.persistence.SequenceGenerator;
 public class UserLoginData {
 
     @Id
-    @Column(nullable = false, updatable = false)
+    @Column(name = "user_id", nullable = false, updatable = false)
     @SequenceGenerator(
             name = "primary_sequence",
             sequenceName = "primary_sequence",
@@ -23,58 +23,57 @@ public class UserLoginData {
             strategy = GenerationType.SEQUENCE,
             generator = "primary_sequence"
     )
-    private Integer userId;
+    private Long userId;
+
+    @Column(name = "login_name")
+    private String loginName;
+
+    @Column(name = "password_hash")
+    private String passwordHash;
+
+    @Column(name = "password_salt")
+    private String passwordSalt;
 
     @Column
-    private Boolean loginname;
+    private Integer hashAlgoritmid; //TODO ask
 
-    @Column
-    private Boolean passwordhash;
-
-    @Column
-    private Boolean passwordsalt;
-
-    @Column
-    private Integer hashalgoritmid;
-
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(final Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public Boolean getLoginname() {
-        return loginname;
+    public String getLoginName() {
+        return loginName;
     }
 
-    public void setLoginname(final Boolean loginname) {
-        this.loginname = loginname;
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 
-    public Boolean getPasswordhash() {
-        return passwordhash;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPasswordhash(final Boolean passwordhash) {
-        this.passwordhash = passwordhash;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
-    public Boolean getPasswordsalt() {
-        return passwordsalt;
+    public String getPasswordSalt() {
+        return passwordSalt;
     }
 
-    public void setPasswordsalt(final Boolean passwordsalt) {
-        this.passwordsalt = passwordsalt;
+    public void setPasswordSalt(String passwordSalt) {
+        this.passwordSalt = passwordSalt;
     }
 
-    public Integer getHashalgoritmid() {
-        return hashalgoritmid;
+    public Integer getHashAlgoritmid() {
+        return hashAlgoritmid;
     }
 
-    public void setHashalgoritmid(final Integer hashalgoritmid) {
-        this.hashalgoritmid = hashalgoritmid;
+    public void setHashAlgoritmid(Integer hashAlgoritmid) {
+        this.hashAlgoritmid = hashAlgoritmid;
     }
-
 }

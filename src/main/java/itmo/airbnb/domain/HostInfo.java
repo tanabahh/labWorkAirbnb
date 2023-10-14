@@ -17,7 +17,7 @@ import java.time.OffsetDateTime;
 public class HostInfo {
 
     @Id
-    @Column(nullable = false, updatable = false)
+    @Column(name = "info_id", nullable = false, updatable = false)
     @SequenceGenerator(
             name = "primary_sequence",
             sequenceName = "primary_sequence",
@@ -28,64 +28,53 @@ public class HostInfo {
             strategy = GenerationType.SEQUENCE,
             generator = "primary_sequence"
     )
-    private Integer infoId;
+    private Long infoId;
 
-    @Column
-    private Integer hostId;
+    @Column(name = "response_rate", precision = 2, scale = 1)
+    private Long responseRate;
 
-    @Column(precision = 2, scale = 1)
-    private BigDecimal responserate;
+    @Column(name = "host_rating", precision = 2, scale = 1)
+    private Long hostRating;
 
-    @Column(precision = 2, scale = 1)
-    private BigDecimal hostrating;
-
-    @Column
+    @Column(name = "ddtm_valid_from")
     private OffsetDateTime ddtmValidFrom;
 
-    @Column
+    @Column(name = "dttm_valid_to")
     private OffsetDateTime dttmValidTo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "host_idd_id")
+    @JoinColumn(name = "host_id")
     private Host hostIdd;
 
-    public Integer getInfoId() {
+    public Long getInfoId() {
         return infoId;
     }
 
-    public void setInfoId(final Integer infoId) {
+    public void setInfoId(Long infoId) {
         this.infoId = infoId;
     }
 
-    public Integer getHostId() {
-        return hostId;
+    public Long getResponseRate() {
+        return responseRate;
     }
 
-    public void setHostId(final Integer hostId) {
-        this.hostId = hostId;
+    public void setResponseRate(Long responseRate) {
+        this.responseRate = responseRate;
     }
 
-    public BigDecimal getResponserate() {
-        return responserate;
+    public Long getHostRating() {
+        return hostRating;
     }
 
-    public void setResponserate(final BigDecimal responserate) {
-        this.responserate = responserate;
-    }
-
-    public BigDecimal getHostrating() {
-        return hostrating;
-    }
-
-    public void setHostrating(final BigDecimal hostrating) {
-        this.hostrating = hostrating;
+    public void setHostRating(Long hostRating) {
+        this.hostRating = hostRating;
     }
 
     public OffsetDateTime getDdtmValidFrom() {
         return ddtmValidFrom;
     }
 
-    public void setDdtmValidFrom(final OffsetDateTime ddtmValidFrom) {
+    public void setDdtmValidFrom(OffsetDateTime ddtmValidFrom) {
         this.ddtmValidFrom = ddtmValidFrom;
     }
 
@@ -93,7 +82,7 @@ public class HostInfo {
         return dttmValidTo;
     }
 
-    public void setDttmValidTo(final OffsetDateTime dttmValidTo) {
+    public void setDttmValidTo(OffsetDateTime dttmValidTo) {
         this.dttmValidTo = dttmValidTo;
     }
 
@@ -101,8 +90,7 @@ public class HostInfo {
         return hostIdd;
     }
 
-    public void setHostIdd(final Host hostIdd) {
+    public void setHostIdd(Host hostIdd) {
         this.hostIdd = hostIdd;
     }
-
 }

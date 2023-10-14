@@ -28,89 +28,90 @@ public class ListingInfo {
             strategy = GenerationType.SEQUENCE,
             generator = "primary_sequence"
     )
-    private Integer listingId;
+    private Long id;
+
+    @Column(name = "listing_url")
+    private String listingUrl;
+
+    @Column(name = "listing_name")
+    private String listingName;
 
     @Column
-    private Boolean listingUrl;
+    private String description;
 
-    @Column
-    private Boolean listingName;
-
-    @Column
-    private Boolean description;
-
-    @Column
-    private Boolean roomtype;
+    @Column(name = "room_type")
+    private String roomType;
 
     @Column(precision = 33, scale = 10)
-    private BigDecimal rating;
+    private Long rating;
 
-    @Column
-    private Boolean photoUrl;
+    @Column(name = "photo_url")
+    private String photoUrl;
 
-    @Column
+    @Column(name = "ddtm_valid_from")
     private OffsetDateTime ddtmValidFrom;
 
-    @Column
+    @Column(name = "dttm_valid_to")
     private OffsetDateTime dttmValidTo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "listing_idd_id")
-    private Listing listingIdd;
+    @JoinColumn(name = "listing_id")
+    private Listing listing;
 
-    public Integer getListingId() {
-        return listingId;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setListingId(final Integer listingId) {
-        this.listingId = listingId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Boolean getListingUrl() {
+    public String getListingUrl() {
         return listingUrl;
     }
 
-    public void setListingUrl(final Boolean listingUrl) {
+    public void setListingUrl(String listingUrl) {
         this.listingUrl = listingUrl;
     }
 
-    public Boolean getListingName() {
+    public String getListingName() {
         return listingName;
     }
 
-    public void setListingName(final Boolean listingName) {
+    public void setListingName(String listingName) {
         this.listingName = listingName;
     }
 
-    public Boolean getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(final Boolean description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public Boolean getRoomtype() {
-        return roomtype;
+    public String getRoomType() {
+        return roomType;
     }
 
-    public void setRoomtype(final Boolean roomtype) {
-        this.roomtype = roomtype;
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
     }
 
-    public BigDecimal getRating() {
+    public Long getRating() {
         return rating;
     }
 
-    public void setRating(final BigDecimal rating) {
+    public void setRating(Long rating) {
         this.rating = rating;
     }
 
-    public Boolean getPhotoUrl() {
+    public String getPhotoUrl() {
         return photoUrl;
     }
 
-    public void setPhotoUrl(final Boolean photoUrl) {
+    public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
     }
 
@@ -118,7 +119,7 @@ public class ListingInfo {
         return ddtmValidFrom;
     }
 
-    public void setDdtmValidFrom(final OffsetDateTime ddtmValidFrom) {
+    public void setDdtmValidFrom(OffsetDateTime ddtmValidFrom) {
         this.ddtmValidFrom = ddtmValidFrom;
     }
 
@@ -126,16 +127,15 @@ public class ListingInfo {
         return dttmValidTo;
     }
 
-    public void setDttmValidTo(final OffsetDateTime dttmValidTo) {
+    public void setDttmValidTo(OffsetDateTime dttmValidTo) {
         this.dttmValidTo = dttmValidTo;
     }
 
-    public Listing getListingIdd() {
-        return listingIdd;
+    public Listing getListing() {
+        return listing;
     }
 
-    public void setListingIdd(final Listing listingIdd) {
-        this.listingIdd = listingIdd;
+    public void setListing(Listing listing) {
+        this.listing = listing;
     }
-
 }

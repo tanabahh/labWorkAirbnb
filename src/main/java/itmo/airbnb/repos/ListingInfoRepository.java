@@ -4,5 +4,5 @@ import itmo.airbnb.domain.ListingInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface ListingInfoRepository extends JpaRepository<ListingInfo, Integer> {
+public interface ListingInfoRepository extends JpaRepository<ListingInfo, Long> {
 }

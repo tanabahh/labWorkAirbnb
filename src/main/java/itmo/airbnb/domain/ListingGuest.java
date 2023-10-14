@@ -16,7 +16,7 @@ import java.time.OffsetDateTime;
 public class ListingGuest {
 
     @Id
-    @Column(nullable = false, updatable = false)
+    @Column(name = "id", nullable = false, updatable = false)
     @SequenceGenerator(
             name = "primary_sequence",
             sequenceName = "primary_sequence",
@@ -27,59 +27,19 @@ public class ListingGuest {
             strategy = GenerationType.SEQUENCE,
             generator = "primary_sequence"
     )
-    private Integer listingId;
+    private Long id;
 
-    @Column
-    private Integer guestId;
+    @Column(name = "guest_id")
+    private Integer guestId; //TODO after guests
 
-    @Column
+    @Column(name = "lead_ddtm")
     private OffsetDateTime loadDdtm;
 
-    @Column
-    private Integer sourceId;
+    @Column(name = "source_id")
+    private Integer sourceId; //TODO ask
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "listing_idd_id")
-    private Listing listingIdd;
-
-    public Integer getListingId() {
-        return listingId;
-    }
-
-    public void setListingId(final Integer listingId) {
-        this.listingId = listingId;
-    }
-
-    public Integer getGuestId() {
-        return guestId;
-    }
-
-    public void setGuestId(final Integer guestId) {
-        this.guestId = guestId;
-    }
-
-    public OffsetDateTime getLoadDdtm() {
-        return loadDdtm;
-    }
-
-    public void setLoadDdtm(final OffsetDateTime loadDdtm) {
-        this.loadDdtm = loadDdtm;
-    }
-
-    public Integer getSourceId() {
-        return sourceId;
-    }
-
-    public void setSourceId(final Integer sourceId) {
-        this.sourceId = sourceId;
-    }
-
-    public Listing getListingIdd() {
-        return listingIdd;
-    }
-
-    public void setListingIdd(final Listing listingIdd) {
-        this.listingIdd = listingIdd;
-    }
+    @JoinColumn(name = "listing_id")
+    private Listing listing;
 
 }

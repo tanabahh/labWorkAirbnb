@@ -15,10 +15,10 @@ import java.util.Set;
 
 
 @Entity
-public class Reviews {
+public class Review {
 
     @Id
-    @Column(nullable = false, updatable = false)
+    @Column(name = "review_id", nullable = false, updatable = false)
     @SequenceGenerator(
             name = "primary_sequence",
             sequenceName = "primary_sequence",
@@ -29,45 +29,35 @@ public class Reviews {
             strategy = GenerationType.SEQUENCE,
             generator = "primary_sequence"
     )
-    private Integer reviewId;
+    private Long reviewId;
 
-    @Column
-    private Integer listingId;
-
-    @Column
+    @Column(name = "load_ddtm")
     private OffsetDateTime loadDdtm;
 
-    @Column
+    @Column(name = "source_id")
     private Integer sourceId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "listing_idd_id")
-    private Listing listingIdd;
+    @JoinColumn(name = "listing_id")
+    private Listing listing;
 
-    @OneToMany(mappedBy = "rewiesIdd")
-    private Set<ReviewsInfo> reviewsInfos;
+    @OneToMany(mappedBy = "review_id")
+    private Set<ReviewInfo> reviewInfos;
 
-    public Integer getReviewId() {
+
+    public Long getReviewId() {
         return reviewId;
     }
 
-    public void setReviewId(final Integer reviewId) {
+    public void setReviewId(Long reviewId) {
         this.reviewId = reviewId;
-    }
-
-    public Integer getListingId() {
-        return listingId;
-    }
-
-    public void setListingId(final Integer listingId) {
-        this.listingId = listingId;
     }
 
     public OffsetDateTime getLoadDdtm() {
         return loadDdtm;
     }
 
-    public void setLoadDdtm(final OffsetDateTime loadDdtm) {
+    public void setLoadDdtm(OffsetDateTime loadDdtm) {
         this.loadDdtm = loadDdtm;
     }
 
@@ -75,24 +65,23 @@ public class Reviews {
         return sourceId;
     }
 
-    public void setSourceId(final Integer sourceId) {
+    public void setSourceId(Integer sourceId) {
         this.sourceId = sourceId;
     }
 
-    public Listing getListingIdd() {
-        return listingIdd;
+    public Listing getListing() {
+        return listing;
     }
 
-    public void setListingIdd(final Listing listingIdd) {
-        this.listingIdd = listingIdd;
+    public void setListing(Listing listing) {
+        this.listing = listing;
     }
 
-    public Set<ReviewsInfo> getReviewsInfos() {
-        return reviewsInfos;
+    public Set<ReviewInfo> getReviewsInfos() {
+        return reviewInfos;
     }
 
-    public void setReviewsInfos(final Set<ReviewsInfo> reviewsInfos) {
-        this.reviewsInfos = reviewsInfos;
+    public void setReviewsInfos(Set<ReviewInfo> reviewInfos) {
+        this.reviewInfos = reviewInfos;
     }
-
 }

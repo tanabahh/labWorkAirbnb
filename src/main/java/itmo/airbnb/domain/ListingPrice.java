@@ -28,34 +28,35 @@ public class ListingPrice {
             strategy = GenerationType.SEQUENCE,
             generator = "primary_sequence"
     )
-    private Integer listingId;
+    private Long id;
 
     @Column(precision = 33, scale = 10)
-    private BigDecimal prices;
+    private Long prices;
 
-    @Column
+    @Column(name = "ddtm_valid_from")
     private OffsetDateTime ddtmValidFrom;
 
-    @Column
+    @Column(name = "dttm_valid_to")
     private OffsetDateTime dttmValidTo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "listinf_idd_id")
-    private Listing listinfIdd;
+    @JoinColumn(name = "listing_id")
+    private Listing listing;
 
-    public Integer getListingId() {
-        return listingId;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setListingId(final Integer listingId) {
-        this.listingId = listingId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public BigDecimal getPrices() {
+    public Long getPrices() {
         return prices;
     }
 
-    public void setPrices(final BigDecimal prices) {
+    public void setPrices(Long prices) {
         this.prices = prices;
     }
 
@@ -63,7 +64,7 @@ public class ListingPrice {
         return ddtmValidFrom;
     }
 
-    public void setDdtmValidFrom(final OffsetDateTime ddtmValidFrom) {
+    public void setDdtmValidFrom(OffsetDateTime ddtmValidFrom) {
         this.ddtmValidFrom = ddtmValidFrom;
     }
 
@@ -71,16 +72,15 @@ public class ListingPrice {
         return dttmValidTo;
     }
 
-    public void setDttmValidTo(final OffsetDateTime dttmValidTo) {
+    public void setDttmValidTo(OffsetDateTime dttmValidTo) {
         this.dttmValidTo = dttmValidTo;
     }
 
-    public Listing getListinfIdd() {
-        return listinfIdd;
+    public Listing getListing() {
+        return listing;
     }
 
-    public void setListinfIdd(final Listing listinfIdd) {
-        this.listinfIdd = listinfIdd;
+    public void setListing(Listing listing) {
+        this.listing = listing;
     }
-
 }

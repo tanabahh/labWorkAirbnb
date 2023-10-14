@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 
 
 @Entity
-public class Guest {
+public class Guest { //TODO after serahc
 
     @Id
     @Column(nullable = false, updatable = false)
@@ -24,10 +24,10 @@ public class Guest {
             strategy = GenerationType.SEQUENCE,
             generator = "primary_sequence"
     )
-    private Integer guestId;
+    private Long guestId;
 
     @Column
-    private Boolean name;
+    private String name;
 
     @Column
     private OffsetDateTime ddtmValidFrom;
@@ -35,19 +35,20 @@ public class Guest {
     @Column
     private OffsetDateTime dttmValidTo;
 
-    public Integer getGuestId() {
+
+    public Long getGuestId() {
         return guestId;
     }
 
-    public void setGuestId(final Integer guestId) {
+    public void setGuestId(Long guestId) {
         this.guestId = guestId;
     }
 
-    public Boolean getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(final Boolean name) {
+    public void setName(String name) {
         this.name = name;
     }
 

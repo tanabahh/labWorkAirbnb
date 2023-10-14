@@ -27,31 +27,31 @@ public class Calendar {
             strategy = GenerationType.SEQUENCE,
             generator = "primary_sequence"
     )
-    private Integer listingId;
+    private Long id; //TODO ask why
 
-    @Column
+    @Column(name = "calendar_date")
     private LocalDate calendarDate;
 
     @Column
     private Boolean available;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "listing_idd_id")
-    private Listing listingIdd;
+    @JoinColumn(name = "listing_id")
+    private Listing listing;
 
-    public Integer getListingId() {
-        return listingId;
+    public Long getId() {
+        return id;
     }
 
-    public void setListingId(final Integer listingId) {
-        this.listingId = listingId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LocalDate getCalendarDate() {
         return calendarDate;
     }
 
-    public void setCalendarDate(final LocalDate calendarDate) {
+    public void setCalendarDate(LocalDate calendarDate) {
         this.calendarDate = calendarDate;
     }
 
@@ -59,16 +59,15 @@ public class Calendar {
         return available;
     }
 
-    public void setAvailable(final Boolean available) {
+    public void setAvailable(Boolean available) {
         this.available = available;
     }
 
-    public Listing getListingIdd() {
-        return listingIdd;
+    public Listing getListing() {
+        return listing;
     }
 
-    public void setListingIdd(final Listing listingIdd) {
-        this.listingIdd = listingIdd;
+    public void setListing(Listing listing) {
+        this.listing = listing;
     }
-
 }

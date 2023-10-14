@@ -14,10 +14,10 @@ import java.time.OffsetDateTime;
 
 
 @Entity
-public class ReviewsInfo {
+public class ReviewInfo {
 
     @Id
-    @Column(nullable = false, updatable = false)
+    @Column(name = "id", nullable = false, updatable = false)
     @SequenceGenerator(
             name = "primary_sequence",
             sequenceName = "primary_sequence",
@@ -28,48 +28,49 @@ public class ReviewsInfo {
             strategy = GenerationType.SEQUENCE,
             generator = "primary_sequence"
     )
-    private Integer reviewId;
+    private Long id;
+
+    @Column(name = "review_name")
+    private String reviewerName;
 
     @Column
-    private Boolean reviewerName;
+    private String comments;
 
-    @Column
-    private Boolean comments;
-
-    @Column
+    @Column(name = "date_publication")
     private LocalDate datePublication;
 
-    @Column
+    @Column(name = "ddtm_valid_from")
     private OffsetDateTime ddtmValidFrom;
 
-    @Column
+    @Column(name = "dttm_valid_to")
     private OffsetDateTime dttmValidTo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rewies_idd_id")
-    private Reviews rewiesIdd;
+    @JoinColumn(name = "review_id")
+    private Review review;
 
-    public Integer getReviewId() {
-        return reviewId;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setReviewId(final Integer reviewId) {
-        this.reviewId = reviewId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Boolean getReviewerName() {
+    public String getReviewerName() {
         return reviewerName;
     }
 
-    public void setReviewerName(final Boolean reviewerName) {
+    public void setReviewerName(String reviewerName) {
         this.reviewerName = reviewerName;
     }
 
-    public Boolean getComments() {
+    public String getComments() {
         return comments;
     }
 
-    public void setComments(final Boolean comments) {
+    public void setComments(String comments) {
         this.comments = comments;
     }
 
@@ -77,7 +78,7 @@ public class ReviewsInfo {
         return datePublication;
     }
 
-    public void setDatePublication(final LocalDate datePublication) {
+    public void setDatePublication(LocalDate datePublication) {
         this.datePublication = datePublication;
     }
 
@@ -85,7 +86,7 @@ public class ReviewsInfo {
         return ddtmValidFrom;
     }
 
-    public void setDdtmValidFrom(final OffsetDateTime ddtmValidFrom) {
+    public void setDdtmValidFrom(OffsetDateTime ddtmValidFrom) {
         this.ddtmValidFrom = ddtmValidFrom;
     }
 
@@ -93,16 +94,15 @@ public class ReviewsInfo {
         return dttmValidTo;
     }
 
-    public void setDttmValidTo(final OffsetDateTime dttmValidTo) {
+    public void setDttmValidTo(OffsetDateTime dttmValidTo) {
         this.dttmValidTo = dttmValidTo;
     }
 
-    public Reviews getRewiesIdd() {
-        return rewiesIdd;
+    public Review getReview() {
+        return review;
     }
 
-    public void setRewiesIdd(final Reviews rewiesIdd) {
-        this.rewiesIdd = rewiesIdd;
+    public void setReview(Review review) {
+        this.review = review;
     }
-
 }
