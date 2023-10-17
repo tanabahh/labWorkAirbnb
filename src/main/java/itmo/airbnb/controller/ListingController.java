@@ -2,6 +2,7 @@ package itmo.airbnb.controller;
 
 import itmo.airbnb.domain.Listing;
 import itmo.airbnb.dto.request.SearchRequest;
+import itmo.airbnb.dto.response.SearchResponse;
 import itmo.airbnb.service.ListingService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@Controller(value = "/listing")
+@Controller
+@RequestMapping(value = "/listing")
 public class ListingController {
 
     private final ListingService listingService;
@@ -20,7 +22,7 @@ public class ListingController {
 
     @PostMapping("/search")
     @ResponseBody
-    public List<Listing> search(@RequestBody SearchRequest searchRequest) {
+    public SearchResponse search(@RequestBody SearchRequest searchRequest) {
         return listingService.search(searchRequest.getCity(), searchRequest.getStartDate(),
                 searchRequest.getEndDate(), searchRequest.getPriceMin(), searchRequest.getPriceMax());
     }

@@ -14,6 +14,7 @@ public interface ListingRepository extends JpaRepository<Listing, Long> {
     @Query(value = "select l from Listing l " +
             "left join fetch l.listingPrice p " +
             "left join fetch l.calendars c " +
-            "where l.city = :city and p.price <= :price_max and p.price >= :price_min")
+            "left join fetch l.listingInfos i " + //TODO можно удалить
+            "where l.city = :city and p.prices <= :price_max and p.prices >= :price_min")
     List<Listing> search(@Param("price_min") int priceMin, @Param("price_max") int priceMax, @Param("city") String city);
 }

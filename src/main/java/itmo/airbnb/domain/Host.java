@@ -43,10 +43,10 @@ public class Host {
     @Column
     private Integer sourceId; //TODO ask
 
-    @OneToMany(mappedBy = "host_id")
+    @OneToMany(mappedBy = "host")
     private Set<Listing> listings;
 
-    @OneToMany(mappedBy = "host_id")
+    @OneToMany(mappedBy = "host")
     private Set<HostInfo> hostInfos;
 
     public Long getHostId() {

@@ -41,7 +41,7 @@ public class Review {
     @JoinColumn(name = "listing_id")
     private Listing listing;
 
-    @OneToMany(mappedBy = "review_id")
+    @OneToMany(mappedBy = "review")
     private Set<ReviewInfo> reviewInfos;
 
 

@@ -44,7 +44,7 @@ public class HostInfo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "host_id")
-    private Host hostIdd;
+    private Host host;
 
     public Long getInfoId() {
         return infoId;
@@ -86,11 +86,11 @@ public class HostInfo {
         this.dttmValidTo = dttmValidTo;
     }
 
-    public Host getHostIdd() {
-        return hostIdd;
+    public Host getHost() {
+        return host;
     }
 
-    public void setHostIdd(Host hostIdd) {
-        this.hostIdd = hostIdd;
+    public void setHost(Host host) {
+        this.host = host;
     }
 }

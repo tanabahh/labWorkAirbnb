@@ -40,23 +40,23 @@ public class Listing {
     @Column(name = "source_id")
     private Integer sourceId; // TODO: ask
 
-    @OneToMany(mappedBy = "listing_id")
+    @OneToMany(mappedBy = "listing")
     private Set<ListingInfo> listingInfos;
 
-    @OneToMany(mappedBy = "listing_id")
+    @OneToMany(mappedBy = "listing")
     private Set<ListingPrice> listingPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "host_id")
     private Host host;
 
-    @OneToMany(mappedBy = "listing_id")
+    @OneToMany(mappedBy = "listing")
     private Set<Review> reviews;
 
-    @OneToMany(mappedBy = "listing_id")
+    @OneToMany(mappedBy = "listing")
     private Set<Calendar> calendars;
 
-    @OneToMany(mappedBy = "listing_id")
+    @OneToMany(mappedBy = "listing")
     private Set<ListingGuest> listingGuests;
 
 
