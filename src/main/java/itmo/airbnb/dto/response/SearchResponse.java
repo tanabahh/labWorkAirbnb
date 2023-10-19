@@ -4,13 +4,13 @@ import java.util.List;
 
 public class SearchResponse {
 
-    private List<ListingDto> listings;
+    private List<ListingSearchDto> listings;
 
-    public List<ListingDto> getListings() {
+    public List<ListingSearchDto> getListings() {
         return listings;
     }
 
-    public void setListings(List<ListingDto> listings) {
+    public void setListings(List<ListingSearchDto> listings) {
         this.listings = listings;
     }
 }

@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -36,13 +37,7 @@ public class HostInfo {
     @Column(name = "host_rating", precision = 2, scale = 1)
     private Long hostRating;
 
-    @Column(name = "ddtm_valid_from")
-    private OffsetDateTime ddtmValidFrom;
-
-    @Column(name = "dttm_valid_to")
-    private OffsetDateTime dttmValidTo;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "host_id")
     private Host host;
 
@@ -70,22 +65,6 @@ public class HostInfo {
         this.hostRating = hostRating;
     }
 
-    public OffsetDateTime getDdtmValidFrom() {
-        return ddtmValidFrom;
-    }
-
-    public void setDdtmValidFrom(OffsetDateTime ddtmValidFrom) {
-        this.ddtmValidFrom = ddtmValidFrom;
-    }
-
-    public OffsetDateTime getDttmValidTo() {
-        return dttmValidTo;
-    }
-
-    public void setDttmValidTo(OffsetDateTime dttmValidTo) {
-        this.dttmValidTo = dttmValidTo;
-    }
-
     public Host getHost() {
         return host;
     }
@@ -93,4 +72,6 @@ public class HostInfo {
     public void setHost(Host host) {
         this.host = host;
     }
+
+
 }

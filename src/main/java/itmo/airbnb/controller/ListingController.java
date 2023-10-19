@@ -2,6 +2,7 @@ package itmo.airbnb.controller;
 
 import itmo.airbnb.domain.Listing;
 import itmo.airbnb.dto.request.SearchRequest;
+import itmo.airbnb.dto.response.ListingGetResponse;
 import itmo.airbnb.dto.response.SearchResponse;
 import itmo.airbnb.service.ListingService;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class ListingController {
 
     @GetMapping(value = "/{id}")
     @ResponseBody
-    public Listing get(@PathVariable("id") Long id) {
+    public ListingGetResponse get(@PathVariable("id") Long id) {
         return listingService.get(id);
     }
 

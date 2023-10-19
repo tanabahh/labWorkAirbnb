@@ -1,6 +1,7 @@
 package itmo.airbnb.dto.response;
 
-public class ListingDto {
+
+public class ListingSearchDto {
 
     private Long id;
     private Long price;

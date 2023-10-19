@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -31,7 +32,7 @@ public class ListingPrice {
     private Long id;
 
     @Column(precision = 33, scale = 10)
-    private Long prices;
+    private Long price;
 
     @Column(name = "ddtm_valid_from")
     private OffsetDateTime ddtmValidFrom;
@@ -39,10 +40,9 @@ public class ListingPrice {
     @Column(name = "dttm_valid_to")
     private OffsetDateTime dttmValidTo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "listing_id")
     private Listing listing;
-
 
     public Long getId() {
         return id;
@@ -52,12 +52,12 @@ public class ListingPrice {
         this.id = id;
     }
 
-    public Long getPrices() {
-        return prices;
+    public Long getPrice() {
+        return price;
     }
 
-    public void setPrices(Long prices) {
-        this.prices = prices;
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
     public OffsetDateTime getDdtmValidFrom() {

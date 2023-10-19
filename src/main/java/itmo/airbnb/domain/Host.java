@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import java.time.OffsetDateTime;
 import java.util.Set;
@@ -40,14 +41,11 @@ public class Host {
     @Column
     private OffsetDateTime loadDdtm;
 
-    @Column
-    private Integer sourceId; //TODO ask
-
     @OneToMany(mappedBy = "host")
     private Set<Listing> listings;
 
-    @OneToMany(mappedBy = "host")
-    private Set<HostInfo> hostInfos;
+    @OneToOne(mappedBy = "host")
+    private HostInfo hostInfo;
 
     public Long getHostId() {
         return hostId;
@@ -89,14 +87,6 @@ public class Host {
         this.loadDdtm = loadDdtm;
     }
 
-    public Integer getSourceId() {
-        return sourceId;
-    }
-
-    public void setSourceId(Integer sourceId) {
-        this.sourceId = sourceId;
-    }
-
     public Set<Listing> getListings() {
         return listings;
     }
@@ -105,11 +95,11 @@ public class Host {
         this.listings = listings;
     }
 
-    public Set<HostInfo> getHostInfos() {
-        return hostInfos;
+    public HostInfo getHostInfo() {
+        return hostInfo;
     }
 
-    public void setHostInfos(Set<HostInfo> hostInfos) {
-        this.hostInfos = hostInfos;
+    public void setHostInfo(HostInfo hostInfo) {
+        this.hostInfo = hostInfo;
     }
 }

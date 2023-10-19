@@ -29,12 +29,6 @@ public class Guest { //TODO after serahc
     @Column
     private String name;
 
-    @Column
-    private OffsetDateTime ddtmValidFrom;
-
-    @Column
-    private OffsetDateTime dttmValidTo;
-
 
     public Long getGuestId() {
         return guestId;
@@ -50,22 +44,6 @@ public class Guest { //TODO after serahc
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public OffsetDateTime getDdtmValidFrom() {
-        return ddtmValidFrom;
-    }
-
-    public void setDdtmValidFrom(final OffsetDateTime ddtmValidFrom) {
-        this.ddtmValidFrom = ddtmValidFrom;
-    }
-
-    public OffsetDateTime getDttmValidTo() {
-        return dttmValidTo;
-    }
-
-    public void setDttmValidTo(final OffsetDateTime dttmValidTo) {
-        this.dttmValidTo = dttmValidTo;
     }
 
 }

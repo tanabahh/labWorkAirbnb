@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import java.time.OffsetDateTime;
 import java.util.Set;
@@ -37,14 +38,11 @@ public class Listing {
     @Column(name = "city")
     private String city; //TODO say
 
-    @Column(name = "source_id")
-    private Integer sourceId; // TODO: ask
+    @OneToOne(mappedBy = "listing")
+    private ListingInfo listingInfo;
 
-    @OneToMany(mappedBy = "listing")
-    private Set<ListingInfo> listingInfos;
-
-    @OneToMany(mappedBy = "listing")
-    private Set<ListingPrice> listingPrice;
+    @OneToOne(mappedBy = "listing")
+    private ListingPrice price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "host_id")
@@ -55,10 +53,6 @@ public class Listing {
 
     @OneToMany(mappedBy = "listing")
     private Set<Calendar> calendars;
-
-    @OneToMany(mappedBy = "listing")
-    private Set<ListingGuest> listingGuests;
-
 
     public Long getListingId() {
         return listingId;
@@ -82,30 +76,6 @@ public class Listing {
 
     public void setLoadDdtm(OffsetDateTime loadDdtm) {
         this.loadDdtm = loadDdtm;
-    }
-
-    public Integer getSourceId() {
-        return sourceId;
-    }
-
-    public void setSourceId(Integer sourceId) {
-        this.sourceId = sourceId;
-    }
-
-    public Set<ListingInfo> getListingInfos() {
-        return listingInfos;
-    }
-
-    public void setListingInfos(Set<ListingInfo> listingInfos) {
-        this.listingInfos = listingInfos;
-    }
-
-    public Set<ListingPrice> getListingPrice() {
-        return listingPrice;
-    }
-
-    public void setListingPrice(Set<ListingPrice> listingPrice) {
-        this.listingPrice = listingPrice;
     }
 
     public Host getHost() {
@@ -132,11 +102,19 @@ public class Listing {
         this.calendars = calendars;
     }
 
-    public Set<ListingGuest> getListingGuests() {
-        return listingGuests;
+    public ListingInfo getListingInfo() {
+        return listingInfo;
     }
 
-    public void setListingGuests(Set<ListingGuest> listingGuests) {
-        this.listingGuests = listingGuests;
+    public void setListingInfo(ListingInfo listingInfo) {
+        this.listingInfo = listingInfo;
+    }
+
+    public ListingPrice getPrice() {
+        return price;
+    }
+
+    public void setPrice(ListingPrice price) {
+        this.price = price;
     }
 }

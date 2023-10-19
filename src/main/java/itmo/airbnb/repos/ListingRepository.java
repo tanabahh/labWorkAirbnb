@@ -12,9 +12,18 @@ import java.util.List;
 public interface ListingRepository extends JpaRepository<Listing, Long> {
 
     @Query(value = "select l from Listing l " +
-            "left join fetch l.listingPrice p " +
+            "left join fetch l.price p " +
             "left join fetch l.calendars c " +
-            "left join fetch l.listingInfos i " + //TODO можно удалить
-            "where l.city = :city and p.prices <= :price_max and p.prices >= :price_min")
+            "left join fetch l.listingInfo i " + //TODO можно удалить
+            "where l.city = :city and p.price <= :price_max and p.price >= :price_min")
     List<Listing> search(@Param("price_min") int priceMin, @Param("price_max") int priceMax, @Param("city") String city);
+
+    @Query(value = "select l from Listing l " +
+            "left join fetch l.price p " +
+            "left join fetch l.listingInfo i " +
+            "left join fetch l.host h " +
+            "left join fetch l.reviews r " +
+            "left join fetch h.hostInfo " +
+            "left join fetch r.reviewInfo")
+    Listing findByIdFetch(@Param("id") long id);
 }

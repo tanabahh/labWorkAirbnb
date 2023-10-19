@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -39,16 +40,9 @@ public class ReviewInfo {
     @Column(name = "date_publication")
     private LocalDate datePublication;
 
-    @Column(name = "ddtm_valid_from")
-    private OffsetDateTime ddtmValidFrom;
-
-    @Column(name = "dttm_valid_to")
-    private OffsetDateTime dttmValidTo;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
     private Review review;
-
 
     public Long getId() {
         return id;
@@ -80,22 +74,6 @@ public class ReviewInfo {
 
     public void setDatePublication(LocalDate datePublication) {
         this.datePublication = datePublication;
-    }
-
-    public OffsetDateTime getDdtmValidFrom() {
-        return ddtmValidFrom;
-    }
-
-    public void setDdtmValidFrom(OffsetDateTime ddtmValidFrom) {
-        this.ddtmValidFrom = ddtmValidFrom;
-    }
-
-    public OffsetDateTime getDttmValidTo() {
-        return dttmValidTo;
-    }
-
-    public void setDttmValidTo(OffsetDateTime dttmValidTo) {
-        this.dttmValidTo = dttmValidTo;
     }
 
     public Review getReview() {

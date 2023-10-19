@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -48,15 +49,10 @@ public class ListingInfo {
     @Column(name = "photo_url")
     private String photoUrl;
 
-    @Column(name = "ddtm_valid_from")
-    private OffsetDateTime ddtmValidFrom;
-
-    @Column(name = "dttm_valid_to")
-    private OffsetDateTime dttmValidTo;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "listing_id")
     private Listing listing;
+
 
 
     public Long getId() {
@@ -113,22 +109,6 @@ public class ListingInfo {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
-    }
-
-    public OffsetDateTime getDdtmValidFrom() {
-        return ddtmValidFrom;
-    }
-
-    public void setDdtmValidFrom(OffsetDateTime ddtmValidFrom) {
-        this.ddtmValidFrom = ddtmValidFrom;
-    }
-
-    public OffsetDateTime getDttmValidTo() {
-        return dttmValidTo;
-    }
-
-    public void setDttmValidTo(OffsetDateTime dttmValidTo) {
-        this.dttmValidTo = dttmValidTo;
     }
 
     public Listing getListing() {

@@ -27,7 +27,7 @@ public class Calendar {
             strategy = GenerationType.SEQUENCE,
             generator = "primary_sequence"
     )
-    private Long id; //TODO ask why
+    private Long id;
 
     @Column(name = "calendar_date")
     private LocalDate calendarDate;

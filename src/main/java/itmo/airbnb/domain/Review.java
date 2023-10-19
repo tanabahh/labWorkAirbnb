@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import java.time.OffsetDateTime;
 import java.util.Set;
@@ -41,9 +42,8 @@ public class Review {
     @JoinColumn(name = "listing_id")
     private Listing listing;
 
-    @OneToMany(mappedBy = "review")
-    private Set<ReviewInfo> reviewInfos;
-
+    @OneToOne(mappedBy = "review")
+    private ReviewInfo reviewInfo;
 
     public Long getReviewId() {
         return reviewId;
@@ -77,11 +77,11 @@ public class Review {
         this.listing = listing;
     }
 
-    public Set<ReviewInfo> getReviewsInfos() {
-        return reviewInfos;
+    public ReviewInfo getReviewInfo() {
+        return reviewInfo;
     }
 
-    public void setReviewsInfos(Set<ReviewInfo> reviewInfos) {
-        this.reviewInfos = reviewInfos;
+    public void setReviewInfo(ReviewInfo reviewInfo) {
+        this.reviewInfo = reviewInfo;
     }
 }
