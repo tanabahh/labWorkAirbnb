@@ -13,6 +13,7 @@ public class ListingMapper {
         var dto = new ListingSearchDto();
         dto.setId(listing.getListingId());
         dto.setCity(listing.getCity());
+        dto.setPrice(listing.getPrice().getPrice());
         dto.setName(listing.getListingInfo().getListingName());
         dto.setRating(listing.getListingInfo().getRating());
         return dto;
@@ -24,6 +25,7 @@ public class ListingMapper {
         dto.setCity(listing.getCity());
         dto.setName(listing.getListingInfo().getListingName());
         dto.setRating(listing.getListingInfo().getRating());
+        dto.setPrice(listing.getPrice().getPrice());
         var host = new HostListingGetDto();
         host.setName(listing.getHost().getName());
         host.setEmail(listing.getHost().getEmail());
@@ -31,7 +33,7 @@ public class ListingMapper {
         host.setPhone(listing.getHost().getPhone());
         host.setLoadDdtm(listing.getHost().getLoadDdtm());
         host.setResponseRate(listing.getHost().getHostInfo().getResponseRate());
-        dto.setHostListingGetDto(host);
+        dto.setHost(host);
         ArrayList<ReviewListingGetDto> reviews = new ArrayList<>();
         listing.getReviews().forEach(review -> {
             var reviewDto = new ReviewListingGetDto();
@@ -40,7 +42,7 @@ public class ListingMapper {
             reviewDto.setDatePublication(review.getReviewInfo().getDatePublication());
             reviews.add(reviewDto);
         });
-        dto.setReviewListingGetDtoList(reviews);
+        dto.setReview(reviews);
         return dto;
     }
 }

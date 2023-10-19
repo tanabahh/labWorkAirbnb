@@ -1,5 +1,6 @@
 package itmo.airbnb.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import itmo.airbnb.dto.response.get.HostListingGetDto;
 import itmo.airbnb.dto.response.get.ReviewListingGetDto;
 
@@ -12,8 +13,8 @@ public class ListingGetResponse {
     private String name;
     private Long rating;
     private String city;
-    private HostListingGetDto hostListingGetDto;
-    private List<ReviewListingGetDto> reviewListingGetDtoList;
+    private HostListingGetDto host;
+    private List<ReviewListingGetDto> review;
 
     public Long getId() {
         return id;
@@ -55,19 +56,19 @@ public class ListingGetResponse {
         this.city = city;
     }
 
-    public HostListingGetDto getHostListingGetDto() {
-        return hostListingGetDto;
+    public HostListingGetDto getHost() {
+        return host;
     }
 
-    public void setHostListingGetDto(HostListingGetDto hostListingGetDto) {
-        this.hostListingGetDto = hostListingGetDto;
+    public void setHost(HostListingGetDto host) {
+        this.host = host;
     }
 
-    public List<ReviewListingGetDto> getReviewListingGetDtoList() {
-        return reviewListingGetDtoList;
+    public List<ReviewListingGetDto> getReview() {
+        return review;
     }
 
-    public void setReviewListingGetDtoList(List<ReviewListingGetDto> reviewListingGetDtoList) {
-        this.reviewListingGetDtoList = reviewListingGetDtoList;
+    public void setReview(List<ReviewListingGetDto> review) {
+        this.review = review;
     }
 }
