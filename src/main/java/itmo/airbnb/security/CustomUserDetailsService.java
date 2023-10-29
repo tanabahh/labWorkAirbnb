@@ -2,6 +2,7 @@ package itmo.airbnb.security;
 
 import itmo.airbnb.domain.UserLoginData;
 import itmo.airbnb.repos.UserLoginDataRepository;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,14 +20,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         UserLoginData user = userRepository.findByLoginName(login);
-        //List<String> roles = new ArrayList<>();
-        //roles.add("USER");
-        UserDetails userDetails =
-                org.springframework.security.core.userdetails.User.builder()
+        if (user == null) {
+            throw new BadCredentialsException("Login information incorrect, please check login and password");
+        }
+        return org.springframework.security.core.userdetails.User.builder()
                         .username(user.getLoginName())
-                        .password(user.getPasswordHash())
-                        //.roles(roles.toArray(new String[0]))
+                        .password(user.getPasswordSalt())
                         .build();
-        return userDetails;
     }
 }

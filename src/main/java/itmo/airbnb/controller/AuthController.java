@@ -1,6 +1,8 @@
 package itmo.airbnb.controller;
 
 import itmo.airbnb.domain.UserLoginData;
+import itmo.airbnb.dto.request.UserLoginRequest;
+import itmo.airbnb.dto.response.UserLoginResponse;
 import itmo.airbnb.security.JwtUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,19 +28,21 @@ public class AuthController {
 
     @ResponseBody
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ResponseEntity<Void> login(@RequestBody String login, String password) {
+    public ResponseEntity<UserLoginResponse> login(@RequestBody UserLoginRequest request) {
         System.out.printf("LOGIN LOGIN LOGIN");
         try {
             Authentication authentication =
-                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, password));
+                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getLogin(),
+                            request.getPassword()));
             String name = authentication.getName();
             UserLoginData user = new UserLoginData();
             user.setLoginName(name);
             String token = jwtUtil.createToken(user);
             System.out.println(token);
-            //LoginRes loginRes = new LoginRes(email,token);
+            UserLoginResponse userLoginResponse = new UserLoginResponse();
+            userLoginResponse.setToken(token);
 
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body(userLoginResponse);
 
         } catch (BadCredentialsException e) {
             //ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST,"Invalid username or password");
