@@ -17,7 +17,6 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
 
-
     private JwtUtil jwtUtil;
     public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
@@ -27,8 +26,8 @@ public class AuthController {
 
     @ResponseBody
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ResponseEntity<Void> login(@RequestBody String login, String password)  {
-
+    public ResponseEntity<Void> login(@RequestBody String login, String password) {
+        System.out.printf("LOGIN LOGIN LOGIN");
         try {
             Authentication authentication =
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, password));
@@ -41,10 +40,10 @@ public class AuthController {
 
             return ResponseEntity.ok().build();
 
-        }catch (BadCredentialsException e){
+        } catch (BadCredentialsException e) {
             //ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST,"Invalid username or password");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }catch (Exception e){
+        } catch (Exception e) {
             //ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
