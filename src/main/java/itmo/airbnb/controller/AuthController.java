@@ -37,10 +37,12 @@ public class AuthController {
             String name = authentication.getName();
             UserLoginData user = new UserLoginData();
             user.setLoginName(name);
+            user.setPasswordSalt(request.getPassword()); //TODO refactor on real password
             String token = jwtUtil.createToken(user);
             System.out.println(token);
             UserLoginResponse userLoginResponse = new UserLoginResponse();
             userLoginResponse.setToken(token);
+            userLoginResponse.setLogin(name);
 
             return ResponseEntity.ok().body(userLoginResponse);
 
