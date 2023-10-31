@@ -28,6 +28,9 @@ public class UserLoginData {
     @Column(name = "login_name")
     private String loginName;
 
+    @Column(name = "role")
+    private String role;
+
     @Column(name = "password_hash")
     private String passwordHash;
 
@@ -36,6 +39,14 @@ public class UserLoginData {
 
     @Column
     private Integer hashAlgoritmid; //TODO ask
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public Long getUserId() {
         return userId;

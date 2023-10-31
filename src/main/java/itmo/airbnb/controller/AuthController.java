@@ -11,7 +11,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,11 +37,7 @@ public class AuthController {
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getLogin(),
                             request.getPassword()));
             String name = authentication.getName();
-            UserLoginData user = new UserLoginData();
-            user.setLoginName(name);
-            user.setPasswordHash(request.getPassword());
-            String token = jwtUtil.createToken(user);
-            System.out.println(token);
+            String token = jwtUtil.createToken(authentication);
             UserLoginResponse userLoginResponse = new UserLoginResponse();
             userLoginResponse.setToken(token);
             userLoginResponse.setLogin(name);
@@ -50,10 +45,8 @@ public class AuthController {
             return ResponseEntity.ok().body(userLoginResponse);
 
         } catch (BadCredentialsException e) {
-            //ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST,"Invalid username or password");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (Exception e) {
-            //ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
@@ -62,5 +55,11 @@ public class AuthController {
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public void register(@RequestBody UserLoginRequest request) {
         service.registerUser(request);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/host-register",method = RequestMethod.POST)
+    public void hostRegister(@RequestBody UserLoginRequest request) {
+        //TODO: create process for host registration
     }
 }

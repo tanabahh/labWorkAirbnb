@@ -3,9 +3,11 @@ package itmo.airbnb.security;
 import io.jsonwebtoken.*;
 import itmo.airbnb.domain.UserLoginData;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -26,10 +28,12 @@ public class JwtUtil {
         this.jwtParser = Jwts.parser().setSigningKey(secret_key);
     }
 
-    public String createToken(UserLoginData user) {
-        Claims claims = Jwts.claims().setSubject(user.getLoginName());
-        //claims.put("firstName",user.getFirstName());
-        //claims.put("lastName",user.getLastName());
+    public String createToken(Authentication authentication) {
+        Claims claims = Jwts.claims().setSubject(authentication.getName());
+        var roles = Arrays.stream(authentication.getAuthorities().toArray()).map(it -> it.toString()).toList();
+        if (!roles.isEmpty()) {
+            claims.put("roles", roles.get(0).toString());
+        }
         Date tokenCreateTime = new Date();
         Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(accessTokenValidity));
         return Jwts.builder()
@@ -74,14 +78,6 @@ public class JwtUtil {
         } catch (Exception e) {
             throw e;
         }
-    }
-
-    public String getEmail(Claims claims) {
-        return claims.getSubject();
-    }
-
-    private List<String> getRoles(Claims claims) {
-        return (List<String>) claims.get("roles");
     }
 
 

@@ -26,9 +26,11 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new BadCredentialsException("Login information incorrect, please check login and password");
         }
         return org.springframework.security.core.userdetails.User.builder()
-                        .username(user.getLoginName())
-                        .password(user.getPasswordHash()) //TODO use here
-                        .build();
+                .username(user.getLoginName())
+                .password(user.getPasswordHash())
+                .roles(user.getRole())
+                .authorities(user.getRole())
+                .build();
     }
 
     public void registerUser(UserLoginRequest request) {

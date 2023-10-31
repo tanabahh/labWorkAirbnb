@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5435/itmo
+    username: itmo
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+server:
+  address: 127.0.0.69
+
+zeebe:
+  client:
+    worker:
+      defaultName: task-list
+      defaultType: io.camunda.zeebe:userTask
+      threads: 2
+    job.timeout: 2592000000 # 30 days
+    broker.gateway-address: 127.0.0.1:26500
+    security.plaintext: true

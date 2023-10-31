@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @Configuration
-@EntityScan("itmo.airbnb.domain")
-@EnableJpaRepositories("itmo.airbnb.repos")
+@EntityScan("itmo.airbnb")
+@EnableJpaRepositories("itmo.airbnb")
 @EnableTransactionManagement
 public class DomainConfig {
 }
