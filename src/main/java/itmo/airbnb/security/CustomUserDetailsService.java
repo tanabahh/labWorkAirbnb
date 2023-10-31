@@ -20,26 +20,15 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        UserLoginData user = userRepository.findByLoginName(login);
-        if (user == null) {
-            throw new BadCredentialsException("Login information incorrect, please check login and password");
-        }
+    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
+        UserLoginData user =
+                userRepository.findById(Long.parseLong(id)).orElseThrow(() -> new BadCredentialsException(
+                        "Login information incorrect, please check login and password"));
         return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getLoginName())
+                .username(user.getUserId().toString())
                 .password(user.getPasswordHash())
                 .roles(user.getRole())
                 .authorities(user.getRole())
                 .build();
-    }
-
-    public void registerUser(UserLoginRequest request) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        UserLoginData userLoginData = new UserLoginData();
-        userLoginData.setLoginName(request.getLogin());
-        userLoginData.setPasswordSalt(request.getPassword()); //TODO do we need it?
-        userLoginData.setPasswordHash(encoder.encode(request.getPassword()));
-
-        userRepository.save(userLoginData);
     }
 }

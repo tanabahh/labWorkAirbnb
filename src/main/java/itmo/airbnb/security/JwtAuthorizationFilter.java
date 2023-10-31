@@ -49,15 +49,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             Claims claims = jwtUtil.resolveClaims(request);
 
             if(claims != null & jwtUtil.validateClaims(claims)){
-                String login = claims.getSubject();
+                String id = claims.getSubject();
                 if (claims.get("roles") == null) {
-                    Authentication authentication = new UsernamePasswordAuthenticationToken(login,"", new ArrayList<>());
+                    Authentication authentication = new UsernamePasswordAuthenticationToken(id,"", new ArrayList<>());
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 } else {
                     GrantedAuthority role = new SimpleGrantedAuthority("ROLE_" + claims.get("roles").toString());
-                    Authentication authentication = new UsernamePasswordAuthenticationToken(login, "hahah", // TODO:
-                            // password
-                            List.of(role));
+                    Authentication authentication = new UsernamePasswordAuthenticationToken(id, "", List.of(role));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }

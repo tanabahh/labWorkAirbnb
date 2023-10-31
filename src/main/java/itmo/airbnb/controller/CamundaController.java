@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -30,9 +31,9 @@ public class CamundaController {
         return taskService.getTasks();
     }
 
-    @GetMapping(value = "/task/{id}") //TODO: approve or not approve
-    public ResponseEntity<Void> complete(@PathVariable("id") Long id) {
-        taskService.complete(id);
+    @GetMapping(value = "/task/{id}")
+    public ResponseEntity<Void> complete(@PathVariable("id") Long id, @RequestParam("approve") boolean approve) {
+        taskService.complete(id, approve);
         return ResponseEntity.ok().build();
     }
 

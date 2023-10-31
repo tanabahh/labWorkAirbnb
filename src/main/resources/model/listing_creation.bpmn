@@ -1,72 +1,121 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0e45kyo" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.13.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0e45kyo" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.13.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0">
   <bpmn:process id="listing_creation_process" isExecutable="true">
     <bpmn:extensionElements />
     <bpmn:startEvent id="StartEvent_1">
-      <bpmn:outgoing>Flow_0vr0wk6</bpmn:outgoing>
+      <bpmn:outgoing>Flow_listing_1</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:serviceTask id="Activity_1au77hf" name="Preparation">
+    <bpmn:serviceTask id="Activity_listing_prepare" name="Prepare new listing">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="job_prepare_listing" />
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0vr0wk6</bpmn:incoming>
-      <bpmn:outgoing>Flow_1q78pu6</bpmn:outgoing>
+      <bpmn:incoming>Flow_listing_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_listing_2</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_0vr0wk6" sourceRef="StartEvent_1" targetRef="Activity_1au77hf" />
-    <bpmn:userTask id="Activity_0s83ezy" name="Admin validation">
-      <bpmn:extensionElements />
-      <bpmn:incoming>Flow_1q78pu6</bpmn:incoming>
-      <bpmn:outgoing>Flow_0k8et7w</bpmn:outgoing>
+    <bpmn:sequenceFlow id="Flow_listing_1" sourceRef="StartEvent_1" targetRef="Activity_listing_prepare" />
+    <bpmn:userTask id="Activity_listing_valid" name="Admin validation">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:output source="=approve" target="approve" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_listing_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_listing_3</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:sequenceFlow id="Flow_1q78pu6" sourceRef="Activity_1au77hf" targetRef="Activity_0s83ezy" />
-    <bpmn:serviceTask id="Activity_10sa6eo" name="Creation">
+    <bpmn:sequenceFlow id="Flow_listing_2" sourceRef="Activity_listing_prepare" targetRef="Activity_listing_valid" />
+    <bpmn:serviceTask id="Activity_create_listing" name="Create new listing">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="job_create_listing" />
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0k8et7w</bpmn:incoming>
+      <bpmn:incoming>Flow_listing_4</bpmn:incoming>
       <bpmn:outgoing>Flow_0ampd2k</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_0k8et7w" sourceRef="Activity_0s83ezy" targetRef="Activity_10sa6eo" />
     <bpmn:endEvent id="Event_1juj00l">
       <bpmn:incoming>Flow_0ampd2k</bpmn:incoming>
+      <bpmn:incoming>Flow_0vxfo0d</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_0ampd2k" sourceRef="Activity_10sa6eo" targetRef="Event_1juj00l" />
+    <bpmn:sequenceFlow id="Flow_0ampd2k" sourceRef="Activity_create_listing" targetRef="Event_1juj00l" />
+    <bpmn:exclusiveGateway id="Gateway_listing">
+      <bpmn:incoming>Flow_listing_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_listing_4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_listing_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_listing_3" sourceRef="Activity_listing_valid" targetRef="Gateway_listing" />
+    <bpmn:sequenceFlow id="Flow_listing_4" sourceRef="Gateway_listing" targetRef="Activity_create_listing">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=approve</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_treject_listing" name="Reject new listing">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="job_reject_listing" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_listing_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vxfo0d</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_listing_5" sourceRef="Gateway_listing" targetRef="Activity_treject_listing">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=approve = false</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0vxfo0d" sourceRef="Activity_treject_listing" targetRef="Event_1juj00l" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="listing_creation_process">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
-        <dc:Bounds x="192" y="102" width="36" height="36" />
+        <dc:Bounds x="192" y="222" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1au77hf_di" bpmnElement="Activity_1au77hf">
-        <dc:Bounds x="280" y="80" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_1au77hf_di" bpmnElement="Activity_listing_prepare">
+        <dc:Bounds x="280" y="200" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0s83ezy_di" bpmnElement="Activity_0s83ezy">
-        <dc:Bounds x="440" y="80" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0s83ezy_di" bpmnElement="Activity_listing_valid">
+        <dc:Bounds x="440" y="200" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_10sa6eo_di" bpmnElement="Activity_10sa6eo">
-        <dc:Bounds x="600" y="80" width="100" height="80" />
-        <bpmndi:BPMNLabel />
+      <bpmndi:BPMNShape id="Gateway_0lx9igt_di" bpmnElement="Gateway_listing" isMarkerVisible="true">
+        <dc:Bounds x="605" y="215" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1juj00l_di" bpmnElement="Event_1juj00l">
-        <dc:Bounds x="762" y="102" width="36" height="36" />
+        <dc:Bounds x="932" y="222" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_0vr0wk6_di" bpmnElement="Flow_0vr0wk6">
-        <di:waypoint x="228" y="120" />
-        <di:waypoint x="280" y="120" />
+      <bpmndi:BPMNShape id="Activity_10sa6eo_di" bpmnElement="Activity_create_listing">
+        <dc:Bounds x="690" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0qr6dcw_di" bpmnElement="Activity_treject_listing">
+        <dc:Bounds x="700" y="330" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0vr0wk6_di" bpmnElement="Flow_listing_1">
+        <di:waypoint x="228" y="240" />
+        <di:waypoint x="280" y="240" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1q78pu6_di" bpmnElement="Flow_1q78pu6">
-        <di:waypoint x="380" y="120" />
-        <di:waypoint x="440" y="120" />
+      <bpmndi:BPMNEdge id="Flow_1q78pu6_di" bpmnElement="Flow_listing_2">
+        <di:waypoint x="380" y="240" />
+        <di:waypoint x="440" y="240" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0k8et7w_di" bpmnElement="Flow_0k8et7w">
-        <di:waypoint x="540" y="120" />
-        <di:waypoint x="600" y="120" />
+      <bpmndi:BPMNEdge id="Flow_1gr8bk8_di" bpmnElement="Flow_listing_3">
+        <di:waypoint x="540" y="240" />
+        <di:waypoint x="605" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0c23x5e_di" bpmnElement="Flow_listing_4">
+        <di:waypoint x="630" y="215" />
+        <di:waypoint x="630" y="120" />
+        <di:waypoint x="690" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1fx26m3_di" bpmnElement="Flow_listing_5">
+        <di:waypoint x="630" y="265" />
+        <di:waypoint x="630" y="370" />
+        <di:waypoint x="700" y="370" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0ampd2k_di" bpmnElement="Flow_0ampd2k">
-        <di:waypoint x="700" y="120" />
-        <di:waypoint x="762" y="120" />
+        <di:waypoint x="790" y="120" />
+        <di:waypoint x="831" y="120" />
+        <di:waypoint x="831" y="240" />
+        <di:waypoint x="932" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vxfo0d_di" bpmnElement="Flow_0vxfo0d">
+        <di:waypoint x="800" y="370" />
+        <di:waypoint x="846" y="370" />
+        <di:waypoint x="846" y="240" />
+        <di:waypoint x="932" y="240" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

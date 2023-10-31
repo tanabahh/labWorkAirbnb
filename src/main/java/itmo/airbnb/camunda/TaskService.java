@@ -24,9 +24,9 @@ public class TaskService {
         return taskRepository.findById(id).orElseThrow();
     }
 
-    public void complete(Long id) {
+    public void complete(Long id, boolean approve) {
         TaskEntity task = taskRepository.findById(id).orElseThrow();
-        zeebeClient.newCompleteCommand(task.getId()).variables(task.getCamundaId()).send();
+        zeebeClient.newCompleteCommand(task.getCamundaId()).variables(approve).send();
         taskRepository.delete(task);
     }
 }

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1udqslw" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.13.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0">
+  <bpmn:process id="Process_0g2tj9l" isExecutable="true">
+    <bpmn:startEvent id="Event_0uzmoud">
+      <bpmn:outgoing>Flow_0vr0wk6</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Activity_1au77hf" name="Prepare host creation">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="job_prepare_host" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0vr0wk6</bpmn:incoming>
+      <bpmn:outgoing>Flow_1q78pu6</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Activity_host_valid" name="Admin validation">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:output source="=approve" target="approve" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1q78pu6</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lruhei</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_10sa6eo" name="Create host">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="job_create_host" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1yjuo3u</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ampd2k</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_1juj00l">
+      <bpmn:incoming>Flow_0ampd2k</bpmn:incoming>
+      <bpmn:incoming>Flow_1f0cubu</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0vr0wk6" sourceRef="Event_0uzmoud" targetRef="Activity_1au77hf" />
+    <bpmn:sequenceFlow id="Flow_1q78pu6" sourceRef="Activity_1au77hf" targetRef="Activity_host_valid" />
+    <bpmn:sequenceFlow id="Flow_0ampd2k" sourceRef="Activity_10sa6eo" targetRef="Event_1juj00l" />
+    <bpmn:exclusiveGateway id="Gateway_0r4e3t0">
+      <bpmn:incoming>Flow_1lruhei</bpmn:incoming>
+      <bpmn:outgoing>Flow_1yjuo3u</bpmn:outgoing>
+      <bpmn:outgoing>Flow_088ufjk</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1lruhei" sourceRef="Activity_host_valid" targetRef="Gateway_0r4e3t0" />
+    <bpmn:sequenceFlow id="Flow_1yjuo3u" sourceRef="Gateway_0r4e3t0" targetRef="Activity_10sa6eo">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=approve</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_0hgd3g3" name="Reject host creation">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="job_reject_host" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_088ufjk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1f0cubu</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_088ufjk" sourceRef="Gateway_0r4e3t0" targetRef="Activity_0hgd3g3">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=approve = false</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1f0cubu" sourceRef="Activity_0hgd3g3" targetRef="Event_1juj00l" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0g2tj9l">
+      <bpmndi:BPMNShape id="BPMNShape_0vifqbk" bpmnElement="Event_0uzmoud">
+        <dc:Bounds x="152" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1au77hf_di" bpmnElement="Activity_1au77hf">
+        <dc:Bounds x="240" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0s83ezy_di" bpmnElement="Activity_host_valid">
+        <dc:Bounds x="400" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_10sa6eo_di" bpmnElement="Activity_10sa6eo">
+        <dc:Bounds x="672" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1juj00l_di" bpmnElement="Event_1juj00l">
+        <dc:Bounds x="872" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0r4e3t0_di" bpmnElement="Gateway_0r4e3t0" isMarkerVisible="true">
+        <dc:Bounds x="565" y="195" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hgd3g3_di" bpmnElement="Activity_0hgd3g3">
+        <dc:Bounds x="650" y="320" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0vr0wk6_di" bpmnElement="Flow_0vr0wk6">
+        <di:waypoint x="188" y="220" />
+        <di:waypoint x="240" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1q78pu6_di" bpmnElement="Flow_1q78pu6">
+        <di:waypoint x="340" y="220" />
+        <di:waypoint x="400" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lruhei_di" bpmnElement="Flow_1lruhei">
+        <di:waypoint x="500" y="220" />
+        <di:waypoint x="565" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1yjuo3u_di" bpmnElement="Flow_1yjuo3u">
+        <di:waypoint x="590" y="195" />
+        <di:waypoint x="590" y="120" />
+        <di:waypoint x="672" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ampd2k_di" bpmnElement="Flow_0ampd2k">
+        <di:waypoint x="772" y="120" />
+        <di:waypoint x="822" y="120" />
+        <di:waypoint x="822" y="220" />
+        <di:waypoint x="872" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1f0cubu_di" bpmnElement="Flow_1f0cubu">
+        <di:waypoint x="750" y="360" />
+        <di:waypoint x="811" y="360" />
+        <di:waypoint x="811" y="220" />
+        <di:waypoint x="872" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_088ufjk_di" bpmnElement="Flow_088ufjk">
+        <di:waypoint x="590" y="245" />
+        <di:waypoint x="590" y="360" />
+        <di:waypoint x="650" y="360" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

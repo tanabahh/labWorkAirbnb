@@ -2,7 +2,7 @@ package itmo.airbnb.dto.response;
 
 public class UserLoginResponse {
     private String token;
-    private String login;
+    private String id;
     private String role;
 
     public String getToken() {
@@ -13,12 +13,12 @@ public class UserLoginResponse {
         this.token = token;
     }
 
-    public String getLogin() {
-        return login;
+    public String getId() {
+        return id;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getRole() {

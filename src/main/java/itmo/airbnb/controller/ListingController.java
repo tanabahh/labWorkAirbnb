@@ -2,6 +2,7 @@ package itmo.airbnb.controller;
 
 import itmo.airbnb.camunda.StarterService;
 import itmo.airbnb.domain.Listing;
+import itmo.airbnb.dto.request.ListingBookRequest;
 import itmo.airbnb.dto.request.ListingCreateRequest;
 import itmo.airbnb.dto.request.SearchRequest;
 import itmo.airbnb.dto.response.ListingGetResponse;
@@ -40,6 +41,13 @@ public class ListingController {
     @ResponseBody
     public ListingGetResponse get(@PathVariable("id") Long id) {
         return listingService.get(id);
+    }
+
+    @PostMapping(value = "/{id}/book")
+    @ResponseBody
+    public ResponseEntity<Void> book(@PathVariable("id") Long id, @RequestBody ListingBookRequest request) {
+        listingService.book(id, request);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(value = "/create-request")

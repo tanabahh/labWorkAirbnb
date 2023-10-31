@@ -2,10 +2,12 @@ package itmo.airbnb.service;
 
 import itmo.airbnb.domain.Calendar;
 import itmo.airbnb.domain.Listing;
+import itmo.airbnb.dto.request.ListingBookRequest;
 import itmo.airbnb.dto.response.ListingGetResponse;
 import itmo.airbnb.dto.response.ListingSearchDto;
 import itmo.airbnb.dto.response.SearchResponse;
 import itmo.airbnb.repos.ListingRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -41,6 +43,11 @@ public class ListingService {
 
     public ListingGetResponse get(Long id) {
         return mapGet(listingRepository.findByIdFetch(id));
+    }
+
+    public void book(Long id, ListingBookRequest request) {
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+        //TODO: get user id from token
     }
 
 }

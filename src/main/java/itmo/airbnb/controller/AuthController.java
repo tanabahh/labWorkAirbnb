@@ -1,10 +1,12 @@
 package itmo.airbnb.controller;
 
+import itmo.airbnb.camunda.StarterService;
 import itmo.airbnb.domain.UserLoginData;
 import itmo.airbnb.dto.request.UserLoginRequest;
 import itmo.airbnb.dto.response.UserLoginResponse;
 import itmo.airbnb.security.CustomUserDetailsService;
 import itmo.airbnb.security.JwtUtil;
+import itmo.airbnb.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,28 +21,32 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-    private final CustomUserDetailsService service;
+    private final UserService service;
+    private final StarterService starterService;
 
     private JwtUtil jwtUtil;
-    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil, CustomUserDetailsService service) {
+    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil,
+                          UserService service,
+                          StarterService starterService) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
         this.service = service;
-
+        this.starterService = starterService;
     }
 
     @ResponseBody
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public ResponseEntity<UserLoginResponse> login(@RequestBody UserLoginRequest request) {
+        UserLoginData user = service.getUser(request);
         try {
             Authentication authentication =
-                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getLogin(),
+                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUserId(),
                             request.getPassword()));
-            String name = authentication.getName();
+            String id = authentication.getName();
             String token = jwtUtil.createToken(authentication);
             UserLoginResponse userLoginResponse = new UserLoginResponse();
             userLoginResponse.setToken(token);
-            userLoginResponse.setLogin(name);
+            userLoginResponse.setId(id);
 
             return ResponseEntity.ok().body(userLoginResponse);
 
@@ -60,6 +66,6 @@ public class AuthController {
     @ResponseBody
     @RequestMapping(value = "/host-register",method = RequestMethod.POST)
     public void hostRegister(@RequestBody UserLoginRequest request) {
-        //TODO: create process for host registration
+        starterService.startHostCreationProcess(request);
     }
 }
